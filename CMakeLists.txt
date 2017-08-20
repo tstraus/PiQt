@@ -1,7 +1,11 @@
 project(PiQt)
 cmake_minimum_required(VERSION 3.0.0)
 
-set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2017_64)
+if(WIN32)
+    set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2017_64)
+else()
+    set(CMAKE_PREFIX_PATH /Users/tuckerstrausbaugh/Qt/5.9.1/clang_64)
+endif()
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Widgets REQUIRED)
