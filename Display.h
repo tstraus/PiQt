@@ -1,6 +1,6 @@
 #include <QOpenGlWidget>
 
-#ifdef(__APPLE__)
+#ifdef __APPLE__
 #include <OpenGL/glu.h>
 #include <OpenGL/gl.h>
 #else
