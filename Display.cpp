@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "GlUtil.h"
 
 Display::Display(QWidget* parent) : QOpenGLWidget(parent)
 {

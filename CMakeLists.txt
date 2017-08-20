@@ -27,6 +27,7 @@ set(SOURCE
 set(HEADER
     MainWindow.h
     Display.h
+    GlUtil.h
 )
 
 include_directories(PiQt

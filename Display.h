@@ -1,12 +1,7 @@
-#include <QOpenGlWidget>
+#ifndef __DISPLAY_H__
+#define __DISPLAY_H__
 
-#ifdef __APPLE__
-#include <OpenGL/glu.h>
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
+#include <QOpenGlWidget>
 
 class Display : public QOpenGLWidget
 {
@@ -22,3 +17,5 @@ protected:
 
 	void paintGL();
 };
+
+#endif // __DISPLAY_H__
