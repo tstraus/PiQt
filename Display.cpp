@@ -9,7 +9,7 @@ Display::~Display() {}
 
 void Display::initializeGL()
 {
-	glClearColor(0, 0, 0, 1);
+	glClearColor(1, 1, 1, 1);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHTING);
