@@ -15,7 +15,7 @@ void Display::initializeGL()
 
 void Display::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	stdClearGL();
 
 	drawCircle(Vec2f(-2.0f, -2.0f), 4.0f);
 	drawFilledCircle(Vec2f(0.0f, 0.0f), 0.1f);
