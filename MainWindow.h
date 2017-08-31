@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <atomic>
 #include <mutex>
-#include <thread>
+#include <future>
 #include <stdint.h>
 
 #include "ui_MainWindow.h"
@@ -29,9 +29,9 @@ public slots:
 	void refreshDisplay();
 
 private:
-	vector<Vec2f> recentPoints;
+    uint64_t piLoop(uint64_t reps);
 
-	atomic<uint64_t> count;
+	vector<Vec2f> recentPoints;
 
 	atomic<bool> completed;
 

@@ -44,3 +44,9 @@ void MainWindow::refreshDisplay()
 		//qt popup that displays the estimate of pi
 	}
 }
+
+uint64_t MainWindow::piLoop(uint64_t reps)
+{
+    // loop making points and incrementing count, and adding to recentPoints
+    // check completed if we are being reset
+}
