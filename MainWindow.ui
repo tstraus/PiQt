@@ -40,7 +40,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="Display" name="openGLWidget">
+     <widget class="Display" name="display">
       <property name="minimumSize">
        <size>
         <width>500</width>

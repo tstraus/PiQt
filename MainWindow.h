@@ -2,20 +2,42 @@
 #define __MAIN_WINDOW_H__
 
 #include <QMainWindow>
+#include <atomic>
+#include <mutex>
+#include <thread>
+#include <stdint.h>
 
 #include "ui_MainWindow.h"
 
-class MainWindow : public QMainWindow
+using std::atomic;
+using std::mutex;
+
+class MainWindow : public QMainWindow, public Ui::MainWindow
 {
 	Q_OBJECT
 
 public:
 	MainWindow(QWidget* parent = 0);
 
-	~MainWindow();
+	~MainWindow() {};
+
+public slots:
+	void onStartButtonPressed();
+
+	void onResetButtonPressed();
+
+	void refreshDisplay();
 
 private:
-	Ui::MainWindow* ui;
+	vector<Vec2f> recentPoints;
+
+	atomic<uint64_t> count;
+
+	atomic<bool> completed;
+
+	QTimer* refreshTimer;
+
+	mutex mux;
 };
 
 #endif // __MAIN_WINDOW_H__
