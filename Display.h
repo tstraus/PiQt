@@ -7,6 +7,7 @@
 #include "GlUtil.h"
 
 using std::vector;
+using std::pair;
 
 class Display : public QOpenGLWidget
 {
@@ -15,7 +16,7 @@ public:
 
 	~Display();
 
-	void addPoints(vector<Vec2f> points);
+	void addPoints(vector<pair<Vec2f, Color>> points);
 
 	void reset();
 

@@ -14,10 +14,10 @@ void Display::initializeGL()
 	stdInitializeGL();
 }
 
-void Display::addPoints(vector<Vec2f> points)
+void Display::addPoints(vector<pair<Vec2f, Color>> points)
 {
 	for (auto& point : points) // check if it's in the circle, draw green if yes, red if not
-		drawFilledCircle(point, 0.01f);
+		drawFilledCircle(point.first, 0.01f, point.second);
 }
 
 void Display::reset()

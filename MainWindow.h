@@ -11,6 +11,7 @@
 
 using std::atomic;
 using std::mutex;
+using std::pair;
 
 class MainWindow : public QMainWindow, public Ui::MainWindow
 {
@@ -31,7 +32,9 @@ public slots:
 private:
     uint64_t piLoop(uint64_t reps);
 
-	vector<Vec2f> recentPoints;
+	bool checkCircle(Vec2f point);
+
+	vector<pair<Vec2f, Color>> recentPoints;
 
 	atomic<bool> completed;
 
