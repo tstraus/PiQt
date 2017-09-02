@@ -45,6 +45,7 @@ void MainWindow::refreshDisplay()
 	if (completed)
 	{
 		//piThread.join()
+		refreshTimer->stop();
 		//qt popup that displays the estimate of pi
 	}
 }
