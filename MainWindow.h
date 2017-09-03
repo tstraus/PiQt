@@ -12,6 +12,7 @@
 using std::atomic;
 using std::mutex;
 using std::pair;
+using std::future;
 
 class MainWindow : public QMainWindow, public Ui::MainWindow
 {
@@ -33,6 +34,10 @@ private:
     uint64_t piLoop(uint64_t reps);
 
 	bool checkCircle(Vec2f point);
+    
+    future<uint64_t> piFuture;
+    
+    uint64_t reps;
 
 	vector<pair<Vec2f, Color>> recentPoints;
 

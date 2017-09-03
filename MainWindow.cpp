@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include <QtCore>
+#include <QMessageBox>
 #include <chrono>
 #include <random>
 #include <iostream>
@@ -8,6 +9,8 @@
 using std::cout;
 using std::endl;
 using std::make_pair;
+using std::async;
+using std::launch;
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(), Ui::MainWindow()
 {
@@ -23,7 +26,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(), Ui::MainWindow()
 
 void MainWindow::onStartButtonPressed()
 {
-	cout << "reps: " << repsSB->value() << endl;
+    reps = repsSB->value();
+	cout << "reps: " << reps << endl;
+    
+    piFuture = async(launch::async, &MainWindow::piLoop, this, repsSB->value());
 }
 
 void MainWindow::onResetButtonPressed()
@@ -44,9 +50,12 @@ void MainWindow::refreshDisplay()
 
 	if (completed)
 	{
-		//piThread.join()
+        uint64_t count = piFuture.get();
 		refreshTimer->stop();
+        
 		//qt popup that displays the estimate of pi
+        QMessageBox msgBox;
+        msgBox.setText(QString("Pi: ") + QString::number((double)count / (double)reps * 4.0));
 	}
 }
 
