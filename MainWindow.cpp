@@ -9,19 +9,18 @@
 using std::cout;
 using std::endl;
 using std::make_pair;
-using std::async;
-using std::launch;
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(), Ui::MainWindow()
 {
 	setupUi(this);
-
+	completed = false;
+	count = 0;
 	refreshTimer = new QTimer();
+	display->initializeGL();
 
 	connect(refreshTimer, SIGNAL(timeout()), this, SLOT(refreshDisplay()));
 	connect(startButton, SIGNAL(pressed()), this, SLOT(onStartButtonPressed()));
-
-	refreshTimer->start(17); // about 60 FPS
+	connect(resetButton, SIGNAL(pressed()), this, SLOT(onResetButtonPressed()));
 }
 
 void MainWindow::onStartButtonPressed()
@@ -29,13 +28,16 @@ void MainWindow::onStartButtonPressed()
     reps = repsSB->value();
 	cout << "reps: " << reps << endl;
     
-    piFuture = async(launch::async, &MainWindow::piLoop, this, repsSB->value());
+	piThread = new std::thread(&MainWindow::piLoop, this, repsSB->value());
+
+	refreshTimer->start(17); // about 60 FPS
 }
 
 void MainWindow::onResetButtonPressed()
 {
 	recentPoints.clear();
 	display->reset();
+	count = 0;
 
 	// set completed to true to force piThread to stop
 	completed = true;
@@ -44,14 +46,19 @@ void MainWindow::onResetButtonPressed()
 void MainWindow::refreshDisplay()
 {
 	mux.lock();
-	display->addPoints(recentPoints);
+	vector<pair<Vec2f, Color>> tempPoints;
+	for (auto point : recentPoints)
+		tempPoints.push_back(point);
+	//display->addPoints(recentPoints);
 	recentPoints.clear();
 	mux.unlock();
 
+	display->addPoints(tempPoints);
+
 	if (completed)
 	{
-        uint64_t count = piFuture.get();
 		refreshTimer->stop();
+		piThread->join();
         
 		//qt popup that displays the estimate of pi
         QMessageBox msgBox;
@@ -59,10 +66,8 @@ void MainWindow::refreshDisplay()
 	}
 }
 
-uint64_t MainWindow::piLoop(uint64_t reps)
+void MainWindow::piLoop(uint64_t reps)
 {
-    uint64_t count = 0;
-
 	unsigned int seed = (unsigned int)std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine engine(seed);
 	std::uniform_real_distribution<float> rand(0, 1);
@@ -79,12 +84,10 @@ uint64_t MainWindow::piLoop(uint64_t reps)
 
 		// stop loop if reset was pressed
 		if (completed)
-			return 0;
+			break;
 	}
 
 	completed = true;
-
-	return count;
 }
 
 bool MainWindow::checkCircle(Vec2f point)

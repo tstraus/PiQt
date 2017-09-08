@@ -17,12 +17,12 @@ public:
 	~Display();
 
 	void addPoints(vector<pair<Vec2f, Color>> points);
+	
+	void initializeGL();
 
 	void reset();
 
 protected:
-	void initializeGL();
-
 	void resizeGL(int w, int h);
 };
 

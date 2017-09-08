@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <atomic>
 #include <mutex>
-#include <future>
+#include <thread>
 #include <stdint.h>
 
 #include "ui_MainWindow.h"
@@ -12,7 +12,6 @@
 using std::atomic;
 using std::mutex;
 using std::pair;
-using std::future;
 
 class MainWindow : public QMainWindow, public Ui::MainWindow
 {
@@ -31,13 +30,15 @@ public slots:
 	void refreshDisplay();
 
 private:
-    uint64_t piLoop(uint64_t reps);
+    void piLoop(uint64_t reps);
 
 	bool checkCircle(Vec2f point);
     
-    future<uint64_t> piFuture;
+    std::thread* piThread;
     
     uint64_t reps;
+
+	uint64_t count;
 
 	vector<pair<Vec2f, Color>> recentPoints;
 
